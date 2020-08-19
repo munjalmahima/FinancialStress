@@ -1,1 +1,235 @@
+<html>
+<body>
+    <center>
+        <h1>FINANCIAL STRESS CALCULATOR</h1>
+    </center>
+    <form action="http://localhost:5000/result" method="POST">
+        <p>Monthly Revenue<input type="number" name="revenue" required /></p>
+        <p>Are you a bachelor/couple/family ? <input type="text" name="type" required /></p>
+        <p>Enter your monthly revenue in Rs. for following domains:- </p>
+        <p>Food at restaurants <input type="number" name="Food" required /></p>
+        <p>Groceries <input type="number" name="Groceries" required /></p>
+        <p>Transport <input type="number" name="Transport" required /></p>
+        <p>Utilities(Bills(Internet,TV,Phone,Electricity,Gas) <input type="number" name="Utilities" required /></p>
+        <p>Entertainment <input type="number" name="Entertainment" required /></p>
+        <p>Shopping <input type="number" name="Shopping" required /></p>
+        <p>House Rent <input type="number" name="House Rent" required /></p>
+        <p>Education of child(if you are family) <input type="number" name="Education" /></p>
+        <p>Do you have any emi's ? <label for="chkYes">
+                <input type="radio" id="chkYes" name="chkPassPort" value="yes" onclick="ShowHideDiv()" />
+                Yes
+            </label>
+            <label for="chkNo">
+                <input type="radio" id="chkNo" name="chkPassPort" value="no" onclick="ShowHideDiv()" checked />
+                No
+            </label></p>
+        <div id="EMIBOX"></div>
+        <div id="100"></div>
+        <script>
+            count = 0;
+            var emicheck = false;
 
+            function show(val) {
+                for (i = 1; i <= val; i++) {
+                    var btn = document.createElement("p");
+                    btn.innerHTML = "Principal Amount : ";
+                    var inpt = document.createElement("input");
+                    inpt.type = "number";
+                    id = "principal" + i;
+                    inpt.id = id;
+                    inpt.name = id;
+                    btn.appendChild(inpt)
+                    document.getElementById("EMIBOX").appendChild(btn);
+                    if (emicheck == true) {
+                        document.getElementById(id).required = true;
+                    }
+                    var btn = document.createElement("p");
+                    btn.innerHTML = "Time Period (in years) : ";
+                    var inpt = document.createElement("input");
+                    inpt.type = "number";
+                    inpt.min = 1;
+                    inpt.max = 100;
+                    id = "time" + i;
+                    inpt.id = id;
+                    inpt.name = id;
+                    btn.appendChild(inpt)
+                    document.getElementById("EMIBOX").appendChild(btn);
+                    if (emicheck == true) {
+                        document.getElementById(id).required = true;
+                    }
+                    var btn = document.createElement("p");
+                    btn.innerHTML = "Date of loan : ";
+                    var inpt = document.createElement("input");
+                    inpt.type = "date";
+                    inpt.name = "date";
+                    id = "date" + i;
+                    inpt.id = id;
+                    inpt.name = id;
+                    btn.appendChild(inpt)
+                    document.getElementById("EMIBOX").appendChild(btn);
+                    if (emicheck == true) {
+                        document.getElementById(id).required = true;
+                    }
+                    var btn = document.createElement("p");
+                    btn.innerHTML = "Do you know the rate of interest at which you took loan ?";
+                    var inpt = document.createElement("input");
+                    inpt.type = "radio";
+                    inpt.name = "emiorrate" + i;
+                    id = "emiorrate" + i;
+                    inpt.id = id;
+                    inpt.value = "Yes"
+                    inpt.checked = true
+                    inpt.onclick = function() {
+                        myfunction1(this.id);
+                    }
+                    var lbl = document.createElement("label");
+                    var txt = document.createTextNode("Yes");
+                    lbl.appendChild(inpt);
+                    lbl.appendChild(txt);
+                    btn.appendChild(lbl);
+                    var inpt = document.createElement("input");
+                    inpt.type = "radio";
+                    inpt.name = "emiorrate" + i;
+                    id = "emiorrate1" + i;
+                    inpt.id = id;
+                    inpt.value = "No"
+                    inpt.onclick = function() {
+                        myfunction(this.id);
+                    }
+                    var lbl = document.createElement("label");
+                    var txt = document.createTextNode("No");
+                    lbl.appendChild(inpt);
+                    lbl.appendChild(txt);
+                    btn.appendChild(lbl);
+                    document.getElementById("EMIBOX").appendChild(btn);
+                    var btn = document.createElement("p");
+                    btn.innerHTML = "Enter the rate of interest : ";
+                    id = "emirate" + i;
+                    btn.id = id;
+                    var inpt = document.createElement("input");
+                    inpt.type = "number";
+                    inpt.step = "0.01";
+                    id = "rate" + i;
+                    inpt.id = id;
+                    inpt.name = id;
+                    btn.appendChild(inpt)
+                    document.getElementById("EMIBOX").appendChild(btn);
+                    if (emicheck == true) {
+                        document.getElementById(id).required = true;
+                    }
+                }
+            }
+
+            function add() {
+                count++;
+                var a = document.createElement("input");
+                a.setAttribute("type", "number");
+                a.setAttribute("id", count);
+                a.setAttribute("name", "principal" + count);
+                a.placeholder = "Enter principal amount" + count;
+                var c = document.createElement("input");
+                c.setAttribute("type", "number");
+                c.setAttribute("id", 10);
+                c.setAttribute("name", "time" + count);
+                c.placeholder = "Enter time period(years) " + count;
+                var d = document.createElement("input");
+                d.setAttribute("type", "date");
+                d.setAttribute("id", chkYes);
+                d.setAttribute("name", "date" + count);
+                var b = document.createElement("br");
+                b.id = count;
+                document.getElementById("100").appendChild(a);
+                document.getElementById("100").appendChild(b);
+                document.getElementById("100").appendChild(c);
+                document.getElementById("100").appendChild(b);
+                document.getElementById("100").appendChild(d);
+                document.getElementById("100").appendChild(b);
+            }
+
+            function ShowHideDiv() {
+                var chkYes = document.getElementById("chkYes");
+                var chkNo = document.getElementById("chkNo");
+                var Rate = document.getElementById("Rate");
+                var Emi = document.getElementById("Emi");
+                Rate.style.display = chkYes.checked ? "block" : "none";
+                if (chkNo.checked) {
+                    Rate.style.display = "none"
+                }
+                if (chkYes.checked) {
+                    emicheck = true;
+                    document.getElementById("ddlViewBy").required = true;
+                }
+            }
+
+            function myfunction(id) {
+                id = id.charAt(id.length - 1);
+                id = "emirate" + id;
+                document.getElementById(id).innerHTML = "Enter the emi amount :"
+                var inpt = document.createElement("input");
+                inpt.type = "number";
+                inpt.name = "rate";
+                inpt.step = "0.01";
+                i = "rate" + (id.charAt(id.length - 1));
+                inpt.id = i;
+                inpt.name = i;
+                document.getElementById(id).appendChild(inpt)
+                document.getElementById(id).required = true;
+            }
+
+            function myfunction1(id) {
+                id = id.charAt(id.length - 1);
+                id = "emirate" + id;
+                document.getElementById(id).innerHTML = "Enter the rate of interest :"
+                var inpt = document.createElement("input");
+                inpt.type = "number";
+                inpt.name = "rate";
+                inpt.step = "0.01";
+                i = "rate" + (id.charAt(id.length - 1));
+                inpt.id = i;
+                inpt.name = i;
+                document.getElementById(id).appendChild(inpt)
+                document.getElementById(id).required = true;
+            }
+        </script>
+        <!-- <div id="Call">
+            <span>Do you know the rate of interest ? (If Yes, enter rate else enter emi) </span>
+            <label for="chkYes">
+        <input type="radio" id="chkYes" name="chkPassPort" onclick="ShowHideDiv()"/>
+        Yes
+      </label>
+            <label for="chkNo">
+        <input type="radio" id="chkNo" name="chkPassPort" onclick="ShowHideDiv()" />
+        No
+      </label>
+        </div> -->
+        <!-- <div id="Rate" style="display: none">
+            Rate of interest:
+            <input type="number" id="rate" step="0.01" min="0" />
+        </div>
+        <div id="Emi" style="display: none">
+            Emi:<input type="number" id="emi" step="0.01" min="0" />
+        </div> -->
+        <div id="Rate" style="display: none">
+            <label for="emis">Number of emi's :</label>
+
+            <select id="ddlViewBy" name="emis" id="emis" onchange="show(this.value)">
+                <option value="" selected disabled hidden>
+                    Select an Option
+                </option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>
+        <center><input type="submit" value="submit" /><input type="reset" value="reset" /></center>
+    </form>
+</body>
+
+</html>
